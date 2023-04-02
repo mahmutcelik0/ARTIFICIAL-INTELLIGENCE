@@ -4,24 +4,58 @@ import java.util.*;
 
 public class EightQueens {
     private static Integer[] board = new Integer[8];
-    private static Map<Integer[], Integer> neighborStates = new LinkedHashMap<>();
+    private static final Map<Integer[], Integer> neighborStates = new LinkedHashMap<>();
     private final Random random = new Random();
-    private Map<Integer[],Integer> steps = new LinkedHashMap<>();
 
-    public void createAndSolve(){
-        randomPlacement();
-        printBoard();
-        fillNeighbors();
-        printOutStates();
-        changeState();
-    }
-    public void solve(){
-        randomPlacement();
-        while(numOfEating(board) != 0){
-            fillNeighbors();
-            if(numOfEating(board)== 1 && neighborStates.values().con)
+    private static final Double[][] solutionTable = new Double[10][3];
+
+    private static int replacementCount = 0;
+    private static int randomRestartCount = 0;
+
+    public void solveNineTimes() {
+        for (int x = 0; x < 9; x++) {
+            System.out.println(x + ". STEP:");
+            double time = 0;
+            long startTime = System.nanoTime();
+            replacementCount = 0;
+            randomRestartCount = 0;
+            solve();
+            long endTime = System.nanoTime();
+
+            time = (endTime - startTime) / 1000000000.0;
+            solutionTable[x][0] = (double) replacementCount;
+            solutionTable[x][1] = (double) randomRestartCount;
+            solutionTable[x][2] = time;
+        }
+        System.out.println("-------------------------------------------");
+
+        for (int y = 0; y < 9; y++) {
+            System.out.println(y + ". STEP:");
+            System.out.println(Arrays.toString(solutionTable[y]));
         }
     }
+
+    public void solve() {
+        randomPlacement();
+        printBoard();
+        int number = 1;
+        while (numOfEating(board) != 0) {
+            replacementCount++;
+            System.out.println("NUMBER:" + number++);
+            fillNeighbors();
+            System.out.println("CONTAINS VAL:" + neighborStates.containsValue(1));
+            System.out.println("EATING IS 1: " + (numOfEating(board) == 1));
+            if (!neighborStates.values().stream().anyMatch(e -> e < numOfEating(board))) {
+                randomRestartCount++;
+                System.out.println("-----RANDOM RESTART IS STARTING -----");
+                printOutStates();
+                solve();
+                break;
+            }
+            changeState();
+        }
+    }
+
 
     public void randomPlacement() {
         for (int x = 0; x < board.length; x++) {
@@ -30,6 +64,7 @@ public class EightQueens {
     }
 
     public void fillNeighbors() {
+        neighborStates.clear();
         for (int x = 0; x < board.length; x++) {
             Integer[] copyBoard = board.clone();
             for (int y = 0; y < board.length; y++) {
