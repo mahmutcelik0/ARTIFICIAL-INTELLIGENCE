@@ -27,12 +27,7 @@ public class EightQueens {
             solutionTable[x][1] = (double) randomRestartCount;
             solutionTable[x][2] = time;
         }
-        System.out.println("-------------------------------------------");
-
-        for (int y = 0; y < 9; y++) {
-            System.out.println(y + ". STEP:");
-            System.out.println(Arrays.toString(solutionTable[y]));
-        }
+        printSolutionTable();
     }
 
     public void solve() {
@@ -103,6 +98,16 @@ public class EightQueens {
     public void printBoard() {
         System.out.println(Arrays.toString(board));
         System.out.println(numOfEating(board));
+    }
+
+    public void printSolutionTable() {
+        System.out.printf("-------------------------------------------------------------------------------------%n");
+        System.out.printf("| %-30s | %-30s | %15s |%n", "Replacement Count", "Random Restart Count", "Time");
+        System.out.printf("-------------------------------------------------------------------------------------%n");
+        for (int y = 0; y < 9; y++) {
+            System.out.printf("| %-30s | %-30s | %15s |%n", solutionTable[y][0],  solutionTable[y][1], solutionTable[y][2]);
+        }
+        System.out.printf("-------------------------------------------------------------------------------------%n");
     }
 
     public void printOutStates() {
