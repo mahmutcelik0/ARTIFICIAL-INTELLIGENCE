@@ -26,7 +26,7 @@ public class Generation {
         }
     }
 
-    public void roulettWheel(){
+    public List<Chromosome> roulettWheel(){
         // (15/17  + 1/16) * x = 100
         double sumWithDivided = 0;
         for (Integer num : generation.values()){
@@ -36,21 +36,27 @@ public class Generation {
 
         System.out.println("MULT NUMBER: "+multiplyNumber);
         List<Chromosome> selectedChromosoms = new ArrayList<>();
-        List<Integer> nums = generation.values().stream().toList();
+        List<Map.Entry<Chromosome,Integer>> listOfChromosoms = new ArrayList<>(generation.entrySet().stream().toList());
 
         //1 i seçilmişlere eklenecek sonrasında o chromosome un seçilebilme olasılığı kaldırılacak
+        double maxRandomNumber = 100.00;
 
         for(int x = 0 ; x < 2 ; x++){
-            double spin = random.nextDouble(0,100);
 
-            for(int y = 0 ; y < nums.size() ; y++){
-                if(spin - nums.get(y) <= 0){
-                    selectedChromosoms.add(generation.) //maple turla index alamıyoruz
+            double spin = random.nextDouble(0,maxRandomNumber);
+
+            for(int y = 0 ; y < listOfChromosoms.size() ; y++){
+                if(spin - (((double)1 /listOfChromosoms.get(y).getValue())*multiplyNumber) <= 0){
+                    selectedChromosoms.add(listOfChromosoms.get(y).getKey()); //maple turla index alamıyoruz
+                    maxRandomNumber-= ((double)1/listOfChromosoms.get(y).getValue()*multiplyNumber);
+                    listOfChromosoms.remove(y);
+                    break;
                 }else {
-                    spin-=nums.get(y);
+                    spin-= (double) 1 /listOfChromosoms.get(y).getValue()*multiplyNumber;
                 }
             }
         }
+        return selectedChromosoms;
     }
 
     public void printGeneration(){

@@ -22,7 +22,7 @@ public class Solution {
 
         System.out.println("-----------------------");
         firstGeneration.getGeneration().values().forEach(System.out::println);
-        firstGeneration.roulettWheel();
+        firstGeneration.roulettWheel().stream().forEach(e-> System.out.println(e.getGene()));
     }
 
 
