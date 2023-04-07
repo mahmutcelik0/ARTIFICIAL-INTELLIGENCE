@@ -1,13 +1,9 @@
 package org.example;
 
-public class Solution {
-    private final int geneCount;
-    private final int chromosomeCount;
+import java.util.List;
 
-    public Solution(int geneCount, int chromosomeCount) {
-        this.geneCount = geneCount;
-        this.chromosomeCount = chromosomeCount;
-    }
+public class Solution {
+    private final PasswordClass passwordClass = new PasswordClass("ChatGPT and GPT-4");
 
     public void solve(){
         Generation firstGeneration = new Generation();
@@ -21,9 +17,20 @@ public class Solution {
         secondGeneration.printGeneration();
 
         System.out.println("-----------------------");
-        firstGeneration.getGeneration().values().forEach(System.out::println);
-        firstGeneration.roulettWheel().stream().forEach(e-> System.out.println(e.getGene()));
+//        firstGeneration.getGeneration().values().forEach(System.out::println);
+//        firstGeneration.roulettWheel().stream().forEach(e-> System.out.println(e.getGene()));
+
+        while (secondGeneration.getGeneration().size() < Constans.CHROMOSOMECOUNT.getValue()){
+            System.out.println("LOOP:  "+ secondGeneration.getGeneration().size());
+            List<Chromosome> temp = firstGeneration.roulettWheel();
+            firstGeneration.makeCrossOver(temp.get(0),temp.get(1)).forEach(e ->{
+                if(secondGeneration.getGeneration().size() != Constans.CHROMOSOMECOUNT.getValue()){
+                    System.out.println(secondGeneration.getGeneration().containsKey(e)); //NASIL AYNI KROMOZOM DENK GELIYOR
+                    secondGeneration.getGeneration().put(e, passwordClass.fitnessFunction(e.getGene()));
+                }
+            });
+        }
+        System.out.println("SECOND GEN");
+        secondGeneration.printGeneration();
     }
-
-
 }

@@ -59,6 +59,24 @@ public class Generation {
         return selectedChromosoms;
     }
 
+    public List<Chromosome> makeCrossOver(Chromosome firstChromo, Chromosome secondChromo){
+        char[] firstGene = firstChromo.getGene().clone();
+        System.out.println("BEFORE");
+        firstChromo.printChromosome();
+        secondChromo.printChromosome();
+
+//        firstChromo.makeCrossOver(secondChromo.getGene());
+//        secondChromo.makeCrossOver(firstGene);
+        char[] temp = firstChromo.getGene().clone();
+        firstChromo.setSecondHalf(secondChromo.getGene());
+        secondChromo.setSecondHalf(temp);
+        System.out.println("AFTER");
+        firstChromo.printChromosome();
+        secondChromo.printChromosome();
+
+        return List.of(firstChromo, secondChromo);
+    }
+
     public void printGeneration(){
         int number = 1;
         for(Map.Entry<Chromosome,Integer> e : generation.entrySet()){
