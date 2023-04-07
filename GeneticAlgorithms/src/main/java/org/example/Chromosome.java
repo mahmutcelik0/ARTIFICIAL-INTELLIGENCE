@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.Random;
 
-public class Chromosome {
+public class Chromosome implements Cloneable{
     private char[] gene;
 
     private final Random random = new Random();
@@ -39,5 +39,12 @@ public class Chromosome {
 
     public void setGene(char[] gene) {
         this.gene = gene;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Chromosome temp = (Chromosome) super.clone();
+        temp.setGene(this.gene.clone());
+        return temp;
     }
 }
