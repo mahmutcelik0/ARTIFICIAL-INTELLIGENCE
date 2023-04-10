@@ -7,8 +7,8 @@ public class Chromosome implements Cloneable{
 
     private final Random random = new Random();
 
-    public Chromosome(Integer geneCount){
-        gene = new char[geneCount];
+    public Chromosome(){
+        gene = new char[Constans.GENECOUNT.getValue()];
         fillGeneWithASCIchar();
     }
 
@@ -18,10 +18,8 @@ public class Chromosome implements Cloneable{
         }
     }
     public void setSecondHalf(char[] temp){
-        int y = 0;
-        for(int x = temp.length/2 ; x < temp.length ; y++){
-            this.gene[x] = temp[y];
-            x++;
+        for(int x = temp.length/2 ; x < temp.length ; x++){
+            this.gene[x] = temp[x];
         }
     }
 

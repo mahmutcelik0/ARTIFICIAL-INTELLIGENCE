@@ -8,9 +8,9 @@ public class Generation {
     private PasswordClass passwordClass = new PasswordClass("ChatGPT");
     private final Random random = new Random();
 
-    public void createFirstGeneration(Integer chromosomeCount, Integer geneCount){
-        for(int x = 0 ; x < chromosomeCount ; x++){
-            Chromosome tempChromosom = new Chromosome(geneCount);
+    public void createFirstGeneration(){
+        for(int x = 0 ; x < Constans.CHROMOSOMECOUNT.getValue() ; x++){
+            Chromosome tempChromosom = new Chromosome();
             generation.put(tempChromosom,passwordClass.fitnessFunction(tempChromosom.getGene()));
         }
     }
