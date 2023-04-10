@@ -14,7 +14,7 @@ public class Chromosome implements Cloneable{
 
     public void fillGeneWithASCIchar(){
         for(int x = 0; x < gene.length ; x++){
-            gene[x] = (char) random.nextInt(0,Constans.ASCISIZE.getValue()+1);
+            gene[x] = (char) random.nextInt(Constans.ASCIMIN.getValue(),Constans.ASCIMAX.getValue()+1);
         }
     }
     public void setSecondHalf(char[] temp){

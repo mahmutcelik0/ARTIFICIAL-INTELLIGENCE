@@ -1,33 +1,79 @@
 package org.example;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Solution {
-    private final PasswordClass passwordClass = new PasswordClass("ChatGPT and GPT-4");
+    private final PasswordClass passwordClass = new PasswordClass("ChatGPT");
 
     public void solve() throws CloneNotSupportedException {
-        Generation firstGeneration = new Generation();
-        firstGeneration.createFirstGeneration(Constans.CHROMOSOMECOUNT.getValue(),Constans.GENECOUNT.getValue());
-        System.out.println("FIRST GENERATION");
-        firstGeneration.printGeneration();
+        Generation oldGeneration = new Generation();
+        oldGeneration.createFirstGeneration(Constans.CHROMOSOMECOUNT.getValue(), Constans.GENECOUNT.getValue());
+//        System.out.println("FIRST GENERATION");
+//        oldGeneration.printGeneration();
 
-        Generation secondGeneration = new Generation();
-        firstGeneration.makeElitism(Constans.ELITISMPERCENT.getValue(),Constans.ELITCHROMOCOUNT.getValue(),secondGeneration);
-        System.out.println("SECOND GENERATION");
-        secondGeneration.printGeneration();
 
-        System.out.println("-----------------------");
-        while (secondGeneration.getGeneration().size() < Constans.CHROMOSOMECOUNT.getValue()){
-            System.out.println("LOOP:  "+ secondGeneration.getGeneration().size());
-            List<Chromosome> temp = firstGeneration.roulettWheel();
-            firstGeneration.makeCrossOver((Chromosome) temp.get(0).clone(), (Chromosome) temp.get(1).clone()).forEach(e ->{
-                if(secondGeneration.getGeneration().size() != Constans.CHROMOSOMECOUNT.getValue()){
-                    System.out.println(secondGeneration.getGeneration().containsKey(e)); //NASIL AYNI KROMOZOM DENK GELIYOR
-                    secondGeneration.getGeneration().put(e, passwordClass.fitnessFunction(e.getGene()));
-                }
-            });
+        boolean firstTour = true;
+        boolean isSolved = solvedControl(oldGeneration);
+        int number = 1;
+        while (!isSolved){
+            Generation nextGeneration = new Generation();
+            System.out.println(number + "TOUR");
+            number++;
+
+            if(oldGeneration ==nextGeneration) System.out.println("yALANN");
+            nextGeneration = new Generation();
+
+            oldGeneration.makeElitism(nextGeneration);
+            while (nextGeneration.getGeneration().size() < Constans.CHROMOSOMECOUNT.getValue()) {
+                List<Chromosome> temp = oldGeneration.roulettWheel();
+                Generation finalNextGeneration = nextGeneration;
+                oldGeneration.makeCrossOver((Chromosome) temp.get(0).clone(), (Chromosome) temp.get(1).clone()).forEach(e -> {
+                    if (finalNextGeneration.getGeneration().size() != Constans.CHROMOSOMECOUNT.getValue()) {
+                        finalNextGeneration.getGeneration().put(e, passwordClass.fitnessFunction(e.getGene()));
+                    }
+                });
+            }
+
+
+            //MUTATION ===????
+            for (Chromosome e:nextGeneration.getGeneration().keySet()
+                 ) {
+                nextGeneration.mutation(e);
+            }
+
+            nextGeneration.getGeneration().entrySet().forEach(this::calculateFitnessFunctionValues);
+
+            firstTour = false;
+
+            isSolved = solvedControl(nextGeneration);
+
+            if(!firstTour){
+                oldGeneration.setGeneration(nextGeneration.getGeneration());
+            }
+
+            printTheMin(nextGeneration);
         }
-        System.out.println("SECOND GEN");
-        secondGeneration.printGeneration();
+    }
+
+    public void calculateFitnessFunctionValues(Map.Entry<Chromosome,Integer> entry){
+        entry.setValue(passwordClass.fitnessFunction(entry.getKey().getGene()));
+    }
+
+    public boolean solvedControl(Generation generation){
+        return generation.getGeneration().keySet().stream().anyMatch(e -> passwordClass.fitnessFunction(e.getGene()) == 0);
+    }
+
+    public void printTheMin(Generation generation){
+        AtomicInteger inte = new AtomicInteger();
+        inte.set(100);
+        generation.getGeneration().keySet().stream().forEach(e -> {
+            if(passwordClass.fitnessFunction(e.getGene()) < inte.get()){
+                inte.set(passwordClass.fitnessFunction(e.getGene()));
+            }
+        });
+//        generation.getGeneration().entrySet().stream().filter(e -> e.getValue() == inte.get()).forEach(System.out::println);
+        System.out.println("MIN VALUE: " +inte.get());
     }
 }
