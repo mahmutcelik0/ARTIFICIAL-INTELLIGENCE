@@ -9,7 +9,7 @@ public class Solution {
 
     public void solve() throws CloneNotSupportedException {
         Generation oldGeneration = new Generation();
-        oldGeneration.createFirstGeneration(Constans.CHROMOSOMECOUNT.getValue(), Constans.GENECOUNT.getValue());
+        oldGeneration.createFirstGeneration();
 //        System.out.println("FIRST GENERATION");
 //        oldGeneration.printGeneration();
 
