@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,10 +40,8 @@ public class Solution {
 
 
             //MUTATION ===????
-            for (Chromosome e:nextGeneration.getGeneration().keySet()
-                 ) {
-                nextGeneration.mutation(e);
-            }
+            Map.Entry<Chromosome,Integer> minChromo = Collections.min(nextGeneration.getGeneration().entrySet(),Map.Entry.comparingByValue());
+            nextGeneration.mutation();
 
             nextGeneration.getGeneration().entrySet().forEach(this::calculateFitnessFunctionValues);
 
@@ -53,8 +53,10 @@ public class Solution {
                 oldGeneration.setGeneration(nextGeneration.getGeneration());
             }
 
-            printTheMin(nextGeneration);
+            nextGeneration.printGeneration();
+            //printTheMin(nextGeneration);
         }
+        System.out.println("FINAL EXECUTED TOUR: "+ number);
     }
 
     public void calculateFitnessFunctionValues(Map.Entry<Chromosome,Integer> entry){
