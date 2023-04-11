@@ -1,7 +1,7 @@
 package org.example;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Generation {
     private Map<Chromosome,Integer> generation = new LinkedHashMap<>();
@@ -27,6 +27,7 @@ public class Generation {
     }
 
     public List<Chromosome> roulettWheel(){
+        System.out.println("------ROULETT------");
         // (15/17  + 1/16) * x = 100
         double sumWithDivided = 0;
         for (Integer num : generation.values()){
@@ -42,8 +43,8 @@ public class Generation {
 
         for(int x = 0 ; x < 2 ; x++){
 
-            double spin = random.nextDouble(0,maxRandomNumber);
-
+            double spin = generateRandomNumber(0,maxRandomNumber);
+            System.out.println("SPIN:" + spin + " RANDOM NUMBER: "+ maxRandomNumber);
             for(int y = 0 ; y < listOfChromosoms.size() ; y++){
                 if(spin - (((double)1 /listOfChromosoms.get(y).getValue())*multiplyNumber) <= 0){
                     selectedChromosoms.add(listOfChromosoms.get(y).getKey());
@@ -54,8 +55,15 @@ public class Generation {
                     spin-= (double) 1 /listOfChromosoms.get(y).getValue()*multiplyNumber;
                 }
             }
+            System.out.println("AFTER SPIN:" + spin + " RANDOM NUMBER: "+ maxRandomNumber);
+
         }
+        selectedChromosoms.forEach(Chromosome::printChromosome);
         return selectedChromosoms;
+    }
+
+    public double generateRandomNumber(double min, double max){
+        return random.nextDouble(min,max);
     }
 
     public List<Chromosome> makeCrossOver(Chromosome firstChromo, Chromosome secondChromo){
@@ -65,14 +73,33 @@ public class Generation {
         return List.of(firstChromo, secondChromo);
     }
 
-    public void mutation(Chromosome chromosome) throws CloneNotSupportedException {
-        double randomNumber = random.nextDouble(0,100);
-        if(Constans.MUTATIONPERCENT.getValue() > randomNumber){
-            startMutationOnRandomChromosome(chromosome);
+    public void mutation(){
+        AtomicBoolean firstElement = new AtomicBoolean(true);
+        generation.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEach(e->{
+            if(firstElement.get()) {
+                try {
+                    twoOptMutation(e.getKey());
+                    firstElement.set(false);
+                } catch (CloneNotSupportedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }else{
+                normalMutation(e.getKey());
+            }
+        });
+    }
+
+    public void normalMutation(Chromosome chromosome) {
+        double randomPercent = random.nextDouble(0,100);
+        if(randomPercent < Constans.MUTATIONPERCENT.getValue()){
+            int randomGene = random.nextInt(0, Constans.GENECOUNT.getValue());
+            char[] temp = chromosome.getGene();
+            temp[randomGene] = (char) random.nextInt(Constans.ASCIMIN.getValue(),Constans.ASCIMAX.getValue()+1);
+            chromosome.setGene(temp.clone());
         }
     }
 
-    public void startMutationOnRandomChromosome(Chromosome chromosome) throws CloneNotSupportedException {
+    public void twoOptMutation(Chromosome chromosome) throws CloneNotSupportedException {
         Chromosome mutatedChromosome = chromosome; //generation.keySet().stream().toList().get(random.nextInt(0,Constans.CHROMOSOMECOUNT.getValue()));
 
         Chromosome bestMutated = (Chromosome) mutatedChromosome.clone();
@@ -113,9 +140,7 @@ public class Generation {
         int number = 1;
         for(Map.Entry<Chromosome,Integer> e : generation.entrySet()){
             System.out.println("---------------------------------------------------------");
-            System.out.println((number++)+". CHROMOSOME: ");
             e.getKey().printChromosome();
-            System.out.println("---------------------------------------------------------");
             System.out.println(e.getValue());
         }
     }
