@@ -15,12 +15,16 @@ public class Main {
 
     public static void printFinalTable(Solution[] solutions){
         System.out.println(" ");
+        int avgGenCount = 0;
         for (Solution solution : solutions) {
             System.out.println("START TIME: "+ solution.getStartTime());
             System.out.println("END TIME: "+ solution.getEndTime());
             double executionTime = (solution.getEndTime()-solution.getStartTime())/1000000.0;
             System.out.println("EXECUTION TIME: "+ executionTime+" ms");
             System.out.println("GENERATION COUNT: "+ solution.getGenerationCount());
+            avgGenCount += solution.getGenerationCount();
         }
+        avgGenCount/=Constans.SOLUTIONCOUNT.getValue();
+        System.out.println("AVERAGE GENERATION COUNT: "+ avgGenCount);
     }
 }
