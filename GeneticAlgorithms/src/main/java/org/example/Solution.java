@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Solution {
-    private final PasswordClass passwordClass = new PasswordClass("ChatGPT");
+    private final PasswordClass passwordClass = new PasswordClass(PasswordEnum.PASSWORD.getValue());
 
     public void solve() throws CloneNotSupportedException {
         Generation oldGeneration = new Generation();

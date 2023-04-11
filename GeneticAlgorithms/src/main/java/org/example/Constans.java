@@ -1,12 +1,12 @@
 package org.example;
 
 public enum Constans {
-    GENECOUNT(7),
-    CHROMOSOMECOUNT(10),
+    GENECOUNT(PasswordEnum.PASSWORD.getValue().length()),
+    CHROMOSOMECOUNT(20),
     ELITISMPERCENT(100),
     ELITCHROMOCOUNT(1),
-    ASCIMIN(65),
-    ASCIMAX(122),
+    ASCIMIN(0),
+    ASCIMAX(127),
     MUTATIONPERCENT(100);
     private final int value;
     Constans(int value) {

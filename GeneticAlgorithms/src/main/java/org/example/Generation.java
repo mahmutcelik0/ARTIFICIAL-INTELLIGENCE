@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Generation {
     private Map<Chromosome,Integer> generation = new LinkedHashMap<>();
-    private PasswordClass passwordClass = new PasswordClass("ChatGPT");
+    private PasswordClass passwordClass = new PasswordClass(PasswordEnum.PASSWORD.getValue());
     private final Random random = new Random();
 
     public void createFirstGeneration(){
