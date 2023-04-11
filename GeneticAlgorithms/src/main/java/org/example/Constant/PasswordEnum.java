@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Constant;
 
 public enum PasswordEnum {
     PASSWORD("ChatGPT and GPT-4");

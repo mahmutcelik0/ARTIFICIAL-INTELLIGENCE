@@ -7,18 +7,6 @@ public class PasswordClass {
         passwordChars = password.toCharArray();
     }
 
-    public int fitnessFunction(String password){
-        if(password.length() != passwordChars.length) return -1;
-
-        int nonMatchedCharCount = 0;
-
-        for(int x = 0 ; x < passwordChars.length ; x++){
-            if(passwordChars[x] != password.charAt(x)) nonMatchedCharCount++;
-        }
-
-        return nonMatchedCharCount;
-    }
-
     public int fitnessFunction(char[] password){
         if(password.length != passwordChars.length) return -1;
 

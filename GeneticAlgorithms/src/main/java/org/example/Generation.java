@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.Constant.Constans;
+import org.example.Constant.PasswordEnum;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -9,7 +11,7 @@ public class Generation {
     private final Random random = new Random();
 
     public void createFirstGeneration(){
-        for(int x = 0 ; x < Constans.CHROMOSOMECOUNT.getValue() ; x++){
+        for(int x = 0; x < Constans.CHROMOSOMECOUNT.getValue() ; x++){
             Chromosome tempChromosom = new Chromosome();
             generation.put(tempChromosom,passwordClass.fitnessFunction(tempChromosom.getGene()));
         }
@@ -27,7 +29,6 @@ public class Generation {
     }
 
     public List<Chromosome> roulettWheel(){
-        System.out.println("------ROULETT------");
         // (15/17  + 1/16) * x = 100
         double sumWithDivided = 0;
         for (Integer num : generation.values()){
@@ -43,8 +44,7 @@ public class Generation {
 
         for(int x = 0 ; x < 2 ; x++){
 
-            double spin = generateRandomNumber(0,maxRandomNumber);
-            System.out.println("SPIN:" + spin + " RANDOM NUMBER: "+ maxRandomNumber);
+            double spin = random.nextDouble(0,maxRandomNumber);
             for(int y = 0 ; y < listOfChromosoms.size() ; y++){
                 if(spin - (((double)1 /listOfChromosoms.get(y).getValue())*multiplyNumber) <= 0){
                     selectedChromosoms.add(listOfChromosoms.get(y).getKey());
@@ -55,15 +55,8 @@ public class Generation {
                     spin-= (double) 1 /listOfChromosoms.get(y).getValue()*multiplyNumber;
                 }
             }
-            System.out.println("AFTER SPIN:" + spin + " RANDOM NUMBER: "+ maxRandomNumber);
-
         }
-        selectedChromosoms.forEach(Chromosome::printChromosome);
         return selectedChromosoms;
-    }
-
-    public double generateRandomNumber(double min, double max){
-        return random.nextDouble(min,max);
     }
 
     public List<Chromosome> makeCrossOver(Chromosome firstChromo, Chromosome secondChromo){
@@ -100,7 +93,7 @@ public class Generation {
     }
 
     public void twoOptMutation(Chromosome chromosome) throws CloneNotSupportedException {
-        Chromosome mutatedChromosome = chromosome; //generation.keySet().stream().toList().get(random.nextInt(0,Constans.CHROMOSOMECOUNT.getValue()));
+        Chromosome mutatedChromosome = chromosome;
 
         Chromosome bestMutated = (Chromosome) mutatedChromosome.clone();
 
