@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Constant;
 
 public enum Constans {
     GENECOUNT(PasswordEnum.PASSWORD.getValue().length()),
@@ -7,7 +7,8 @@ public enum Constans {
     ELITCHROMOCOUNT(1),
     ASCIMIN(0),
     ASCIMAX(127),
-    MUTATIONPERCENT(100);
+    MUTATIONPERCENT(100),
+    SOLUTIONCOUNT(3);
     private final int value;
     Constans(int value) {
         this.value = value;

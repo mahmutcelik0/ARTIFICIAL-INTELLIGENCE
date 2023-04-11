@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.Constant.Constans;
+
 import java.util.Random;
 
 public class Chromosome implements Cloneable{
