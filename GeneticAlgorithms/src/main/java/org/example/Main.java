@@ -16,15 +16,26 @@ public class Main {
     public static void printFinalTable(Solution[] solutions){
         System.out.println(" ");
         int avgGenCount = 0;
+
+        System.out.printf("---------------------------------------------------------------------------------------------%n");
+        System.out.printf("| %-20s | %-20s | %-20s | %-20s |%n", "START TIME ", "END TIME", "EXECUTION TIME", "GENERATION COUNT");
+        System.out.printf("---------------------------------------------------------------------------------------------%n");
+
         for (Solution solution : solutions) {
-            System.out.println("START TIME: "+ solution.getStartTime());
-            System.out.println("END TIME: "+ solution.getEndTime());
             double executionTime = (solution.getEndTime()-solution.getStartTime())/1000000.0;
-            System.out.println("EXECUTION TIME: "+ executionTime+" ms");
-            System.out.println("GENERATION COUNT: "+ solution.getGenerationCount());
             avgGenCount += solution.getGenerationCount();
+            System.out.printf("| %-20s | %-20s | %-20s | %-20s |%n", solution.getStartTime(),solution.getEndTime(),executionTime,solution.getGenerationCount());
+
+//            System.out.println("START TIME: "+ solution.getStartTime());
+//            System.out.println("END TIME: "+ solution.getEndTime());
+//            System.out.println("EXECUTION TIME: "+ executionTime+" ms");
+//            System.out.println("GENERATION COUNT: "+ solution.getGenerationCount());
+
         }
+        System.out.printf("---------------------------------------------------------------------------------------------%n");
         avgGenCount/=Constans.SOLUTIONCOUNT.getValue();
         System.out.println("AVERAGE GENERATION COUNT: "+ avgGenCount);
+        System.out.printf("---------------------------------------------------------------------------------------------%n");
+
     }
 }
