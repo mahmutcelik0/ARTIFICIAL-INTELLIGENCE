@@ -3,6 +3,11 @@ package org.example;
 import org.example.Constant.Constans;
 
 public class Main {
+
+    /**
+     * Constant değerler içerisinden kaç tur çözüleceğini alıp ve o kadar tekrarda çözdürür. Sonuçları Solution array inde saklar
+     * Sonrasında bastırılması gerçekleşir
+     * */
     public static void main(String[] args) throws CloneNotSupportedException {
         Solution[] solutions = new Solution[Constans.SOLUTIONCOUNT.getValue()];
         for(int x = 0 ; x < Constans.SOLUTIONCOUNT.getValue(); x++){
@@ -13,6 +18,9 @@ public class Main {
         printFinalTable(solutions);
     }
 
+    /**
+     * Sonuçların dokumantasyondaki isteklere göre düzenlenip bastırılmasını gerçekleştirir
+     * */
     public static void printFinalTable(Solution[] solutions){
         System.out.println(" ");
         int avgGenCount = 0;
@@ -25,13 +33,8 @@ public class Main {
             double executionTime = (solution.getEndTime()-solution.getStartTime())/1000000.0;
             avgGenCount += solution.getGenerationCount();
             System.out.printf("| %-20s | %-20s | %-20s | %-20s |%n", solution.getStartTime(),solution.getEndTime(),executionTime,solution.getGenerationCount());
-
-//            System.out.println("START TIME: "+ solution.getStartTime());
-//            System.out.println("END TIME: "+ solution.getEndTime());
-//            System.out.println("EXECUTION TIME: "+ executionTime+" ms");
-//            System.out.println("GENERATION COUNT: "+ solution.getGenerationCount());
-
         }
+
         System.out.printf("---------------------------------------------------------------------------------------------%n");
         avgGenCount/=Constans.SOLUTIONCOUNT.getValue();
         System.out.println("AVERAGE GENERATION COUNT: "+ avgGenCount);
