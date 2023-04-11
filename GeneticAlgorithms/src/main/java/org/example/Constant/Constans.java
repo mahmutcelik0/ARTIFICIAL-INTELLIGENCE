@@ -1,5 +1,9 @@
 package org.example.Constant;
 
+/*
+* Proje genelinde kullanılan sabit değerlerin tek bir yerden erişilebilmesi
+* ve kolaylıkla tutarlı bir şekilde değiştirilebilmesi için değerler enum içerisinde saklandı
+* */
 public enum Constans {
     GENECOUNT(PasswordEnum.PASSWORD.getValue().length()),
     CHROMOSOMECOUNT(20),
