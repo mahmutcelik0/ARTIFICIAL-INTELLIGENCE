@@ -60,7 +60,7 @@ public class Solution {
 
             oldGeneration.setGeneration(nextGeneration.getGeneration());
 
-            nextGeneration.printGeneration();
+            nextGeneration.printTheBestChromosome(number);
         }
         endTime = System.nanoTime();
 

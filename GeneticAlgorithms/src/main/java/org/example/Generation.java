@@ -189,6 +189,14 @@ public class Generation {
         }
     }
 
+    public void printTheBestChromosome(int number) {
+        Map.Entry<Chromosome, Integer> minEntry =  Collections.min(generation.entrySet(),Map.Entry.comparingByValue());
+        System.out.print(number+". GENERATION'S BEST:\t");
+        minEntry.getKey().printChromosome();
+        System.out.print("\t"+minEntry.getValue()+"\n");
+
+    }
+
     //GETTER AND SETTER
     public Map<Chromosome, Integer> getGeneration() {
         return generation;
@@ -197,4 +205,6 @@ public class Generation {
     public void setGeneration(Map<Chromosome, Integer> generation) {
         this.generation = generation;
     }
+
+
 }

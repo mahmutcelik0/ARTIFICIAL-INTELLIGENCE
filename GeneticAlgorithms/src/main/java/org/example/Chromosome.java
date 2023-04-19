@@ -53,7 +53,7 @@ public class Chromosome implements Cloneable{
         for(char c: gene){
             str.append(c);
         }
-        System.out.println(str);
+        System.out.print(str);
     }
 
     //Getter Setter and Clone methods

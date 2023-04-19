@@ -32,7 +32,7 @@ public class Main {
         for (Solution solution : solutions) {
             double executionTime = (solution.getEndTime()-solution.getStartTime())/1000000.0;
             avgGenCount += solution.getGenerationCount();
-            System.out.printf("| %-20s | %-20s | %-20s | %-20s |%n", solution.getStartTime(),solution.getEndTime(),executionTime,solution.getGenerationCount());
+            System.out.printf("| %-20s | %-20s | %-20s | %-20s |%n", solution.getStartTime(),solution.getEndTime(),executionTime+" ms",solution.getGenerationCount());
         }
 
         System.out.printf("---------------------------------------------------------------------------------------------%n");
