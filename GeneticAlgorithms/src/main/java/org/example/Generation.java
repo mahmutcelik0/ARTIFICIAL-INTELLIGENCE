@@ -177,18 +177,6 @@ public class Generation {
         }
     }
 
-    /*
-    * Generation un bastırılması için metod -- SİLİNEBİLİR !!!!
-    * */
-    public void printGeneration(){
-        int number = 1;
-        for(Map.Entry<Chromosome,Integer> e : generation.entrySet()){
-            System.out.println("---------------------------------------------------------");
-            e.getKey().printChromosome();
-            System.out.println(e.getValue());
-        }
-    }
-
     public void printTheBestChromosome(int number) {
         Map.Entry<Chromosome, Integer> minEntry =  Collections.min(generation.entrySet(),Map.Entry.comparingByValue());
         System.out.print(number+". GENERATION'S BEST:\t");

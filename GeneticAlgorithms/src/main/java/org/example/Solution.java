@@ -81,20 +81,6 @@ public class Solution {
         return generation.getGeneration().keySet().stream().anyMatch(e -> passwordClass.fitnessFunction(e.getGene()) == 0);
     }
 
-    //WILL DELETE
-/*
-    public void printTheMin(Generation generation){
-        AtomicInteger inte = new AtomicInteger();
-        inte.set(100);
-        generation.getGeneration().keySet().stream().forEach(e -> {
-            if(passwordClass.fitnessFunction(e.getGene()) < inte.get()){
-                inte.set(passwordClass.fitnessFunction(e.getGene()));
-            }
-        });
-//        generation.getGeneration().entrySet().stream().filter(e -> e.getValue() == inte.get()).forEach(System.out::println);
-        System.out.println("MIN VALUE: " +inte.get());
-    }*/
-
     //GETTERS
     public double getStartTime() {
         return startTime;
