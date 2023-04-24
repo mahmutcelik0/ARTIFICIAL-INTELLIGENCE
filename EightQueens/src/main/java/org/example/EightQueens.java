@@ -9,7 +9,7 @@ public class EightQueens {
     // Neighbor states of current board -> It holds neighbor state and number of eating each other count
     private final Random random = new Random();
 
-    private static final Object[][] solutionTable = new Object[9][4]; //Keeps our solutions results
+    private static final Object[][] solutionTable = new Object[9][5]; //Keeps our solutions results
 
     private static int randomRestartCount = 0; //Counts random restart for each solution tour
 
@@ -45,6 +45,7 @@ public class EightQueens {
             solutionTable[x][1] = (double) randomRestartCount;
             solutionTable[x][2] = time;
             solutionTable[x][3] = replacement.getReplacementCounts();
+            solutionTable[x][4] = board.clone();
 
         }
         printSolutionTable();
@@ -157,6 +158,12 @@ public class EightQueens {
             System.out.println("| TOUR " + (z + 1) + ": " + solutionTable[z][3].toString());
         }
         System.out.printf("-------------------------------------------------------------------------------------%n");
+        System.out.println("| Final boards per Loop");
+        for (int z = 0; z < solutionTable.length; z++) {
+            System.out.println("| TOUR " + (z + 1) + ": " + Arrays.toString((Integer[])solutionTable[z][4]));
+        }
+        System.out.printf("-------------------------------------------------------------------------------------%n");
+
     }
 }
 
